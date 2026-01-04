@@ -1,0 +1,62 @@
+#### PUT THIS IN THE CONFIGURATION.YAML OR SEPERATE FILES IF YOU WISH ###
+
+# =========================
+# Helpers
+# =========================
+
+input_number:
+  max_netvermogen:
+    name: Max netvermogen
+    min: 0
+    max: 6000
+    step: 100
+    unit_of_measurement: W
+    mode: slider
+
+  batterij_soc_min:
+    name: Minimale batterij SOC
+    min: 10
+    max: 40
+    step: 1
+    unit_of_measurement: "%"
+    mode: slider
+    icon: mdi:battery-alert
+
+input_boolean:
+  wintermodus_batterij:
+    name: Wintermodus batterij
+
+# =========================
+# Sensors
+# =========================
+
+sensor:
+  - platform: statistics
+    name: huisverbruik_gemiddeld_1m
+    entity_id: sensor.solar_house_consumption_w
+    state_characteristic: mean
+    max_age:
+      minutes: 1
+
+template:
+  - sensor:
+      - name: "Batterij discharge berekend"
+        unique_id: batterij_discharge_berekend
+        unit_of_measurement: "W"
+        state: >
+          {% set huis = states('sensor.huisverbruik_gemiddeld_1m') | float(0) %}
+          {% set piek = states('input_number.max_netvermogen') | float(0) %}
+          {% set soc = states('sensor.solaredge_i1_b1_state_of_energy') | float(0) %}
+          {% set soc_min = states('input_number.batterij_soc_min') | float(0) %}
+          {% set winter = states('input_boolean.wintermodus_batterij') %}
+          {% set panelen = states('sensor.solar_panel_production_w') | float(0) %}
+
+          {% if winter != 'on' %}
+            0
+          {% elif soc < soc_min %}
+            0
+          {% else %}
+            {{ [huis - piek - panelen, 0] | max }}
+          {% endif %}
+
+          
