@@ -1,0 +1,26 @@
+## Enter the below as a entity card in HA dashboard ##
+
+  type: vertical-stack
+cards:
+  - type: entities
+    title: Batterij regeling
+    entities:
+      - input_boolean.wintermodus_batterij
+      - input_number.max_netvermogen
+      - input_number.batterij_soc_min
+  - type: entities
+    title: Batterij status
+    entities:
+      - sensor.huisverbruik_gemiddeld_1m
+      - sensor.batterij_discharge_berekend
+      - number.solaredge_i1_storage_discharge_limit
+      - sensor.solaredge_i1_b1_state_of_energy
+  - type: gauge
+    entity: sensor.batterij_discharge_berekend
+    name: Discharge vermogen
+    min: 0
+    max: 5000
+    severity:
+      green: 0
+      yellow: 2000
+      red: 4000
