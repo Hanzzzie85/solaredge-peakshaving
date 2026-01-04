@@ -1,0 +1,10 @@
+**🏠 Huisverbruik (1m):** {{ state_attr('sensor.batterij_debug','huisverbruik_gemiddeld_1m') }} W  
+**🎚️ Max netvermogen:** {{ state_attr('sensor.batterij_debug','max_netvermogen') }} W  
+**🔋 SOC:** {{ state_attr('sensor.batterij_debug','soc') }} %  
+**⚠️ SOC min:** {{ state_attr('sensor.batterij_debug','soc_min') }} %  
+**❄️ Wintermodus:** {{ state_attr('sensor.batterij_debug','wintermodus') }}  
+**☀️ PV productie:** {{ state_attr('sensor.batterij_debug','panelen') }} W  
+
+**🧮 Berekend verschil:** {{ state_attr('sensor.batterij_debug','berekend_verschil') }} W  
+**⚡ Gevraagde discharge:** {{ state_attr('sensor.batterij_debug','gevraagde_discharge') }} W  
+**🔌 SolarEdge limit:** {{ state_attr('sensor.batterij_debug','solaredge_limit') }} W
